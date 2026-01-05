@@ -6,11 +6,16 @@
 # When entries removed, normal DNS resolution resumes.
 #
 # Usage:
-#   hostmask.sh -c <config.json> on [profile]    Apply profile (default: first profile)
-#   hostmask.sh -c <config.json> off             Remove all config hosts (use DNS)
-#   hostmask.sh -c <config.json> status          Show current routing status
-#   hostmask.sh -c <config.json> list            List available profiles
-#   hostmask.sh -c <config.json> init            Create default hosts.json if not exists
+#   hostmask.sh on              Enable local routing (uses ./hosts.json)
+#   hostmask.sh off             Disable local routing (use DNS)
+#   hostmask.sh status          Show current routing status
+#   hostmask.sh init            Create default hosts.json in current directory
+#
+# Advanced (specify config file):
+#   hostmask.sh -c <config.json> on [profile]
+#   hostmask.sh -c <config.json> off
+#   hostmask.sh -c <config.json> status
+#   hostmask.sh -c <config.json> list
 #
 # Config format (JSON):
 # {
@@ -59,12 +64,8 @@ done
 # Default action
 ACTION="${ACTION:-status}"
 
-# Validate config file
-if [[ -z "$CONFIG_FILE" ]]; then
-  echo -e "${RED}Error: Config file required. Use -c <config.json>${NC}"
-  echo "Usage: $0 -c <config.json> [on|off|status|list|init] [profile]"
-  exit 1
-fi
+# Default config file to ./hosts.json if not specified
+CONFIG_FILE="${CONFIG_FILE:-./hosts.json}"
 
 # Handle init action before checking if file exists
 if [[ "$ACTION" == "init" ]]; then

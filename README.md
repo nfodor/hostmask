@@ -49,38 +49,42 @@ echo 'alias hostmask="~/dev/hostmask/hostmask.sh"' >> ~/.bashrc
 
 ## Usage
 
+From any directory with a `hosts.json` file:
+
 ```bash
-# Initialize a default hosts.json in current directory
-hostmask.sh -c hosts.json init
+hostmask.sh on       # Enable local routing
+hostmask.sh off      # Disable (use DNS)
+hostmask.sh status   # Show current status
+hostmask.sh init     # Create default hosts.json
+```
 
-# Enable local routing (add entries to /etc/hosts)
-hostmask.sh -c hosts.json on
+### Advanced: Specify Config File
 
-# Disable local routing (remove entries, use DNS)
-hostmask.sh -c hosts.json off
-
-# Check current status
-hostmask.sh -c hosts.json status
+```bash
+hostmask.sh -c /path/to/config.json on
+hostmask.sh -c /path/to/config.json off
+hostmask.sh -c /path/to/config.json status
 ```
 
 ### Example Session
 
 ```bash
-$ hostmask.sh -c hosts.json on
+$ cd ~/myproject
+$ hostmask.sh on
 Config: /home/user/myproject/hosts.json
 Applying profile: local (local-dev server)
   + api.example.com → 192.168.1.100
   + assets.example.com → 192.168.1.100
 Done. Routing via local-dev server
 
-$ hostmask.sh -c hosts.json status
+$ hostmask.sh status
 Hosts routing status:
 Config: /home/user/myproject/hosts.json
 
   LOCAL [local]: api.example.com → 192.168.1.100
   LOCAL [local]: assets.example.com → 192.168.1.100
 
-$ hostmask.sh -c hosts.json off
+$ hostmask.sh off
 Config: /home/user/myproject/hosts.json
 Removing hosts intercepts (using DNS)...
   - api.example.com → DNS
