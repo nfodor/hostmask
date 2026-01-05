@@ -16,14 +16,9 @@
 # {
 #   "profiles": {
 #     "local": {
-#       "ip": "10.10.10.223",
-#       "description": "local-dev LXC",
-#       "hosts": ["api.setip.io", "assets.setip.io"]
-#     },
-#     "ovh": {
-#       "ip": "15.204.144.210",
-#       "description": "OVH production",
-#       "hosts": ["api.setip.io"]
+#       "ip": "192.168.1.100",
+#       "description": "local dev server",
+#       "hosts": ["api.example.com", "assets.example.com"]
 #     }
 #   }
 # }
@@ -83,10 +78,10 @@ if [[ "$ACTION" == "init" ]]; then
 {
   "profiles": {
     "local": {
-      "ip": "10.10.10.223",
-      "description": "local-dev LXC",
+      "ip": "192.168.1.100",
+      "description": "local dev server",
       "hosts": [
-        "api.setip.io"
+        "api.example.com"
       ]
     }
   }
