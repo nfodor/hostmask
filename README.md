@@ -20,7 +20,7 @@ PING api.example.com (93.184.216.34)  # → production server
 ```bash
 $ hostmask.sh on
 $ ping api.example.com
-PING api.example.com (192.168.1.100)  # → your local dev server
+PING api.example.com (127.0.0.1)  # → localhost
 ```
 
 Now `curl`, browsers, and any app connecting to `api.example.com` will reach your local machine instead.
@@ -39,8 +39,8 @@ Your computer checks `/etc/hosts` before querying DNS. hostmask adds/removes ent
 ```
 # /etc/hosts
 127.0.0.1   localhost
-192.168.1.100 api.example.com
-192.168.1.100 assets.example.com
+127.0.0.1   api.example.com
+127.0.0.1   assets.example.com
 ```
 
 **When you run `hostmask off`**, entries are removed and normal DNS resolution resumes.
@@ -56,10 +56,10 @@ PING api.example.com (93.184.216.34) 56(84) bytes of data.
 # After
 $ hostmask.sh on
 $ ping -c1 api.example.com | head -1
-PING api.example.com (192.168.1.100) 56(84) bytes of data.
+PING api.example.com (127.0.0.1) 56(84) bytes of data.
 
 # Also works with curl
-$ curl -I https://api.example.com  # hits 192.168.1.100
+$ curl -I https://api.example.com  # hits 127.0.0.1 (localhost)
 ```
 
 ## Installation
@@ -97,17 +97,17 @@ hostmask.sh -c /path/to/config.json status
 $ cd ~/myproject
 $ hostmask.sh on
 Config: /home/user/myproject/hosts.json
-Applying profile: local (local-dev server)
-  + api.example.com → 192.168.1.100
-  + assets.example.com → 192.168.1.100
-Done. Routing via local-dev server
+Applying profile: local (localhost)
+  + api.example.com → 127.0.0.1
+  + assets.example.com → 127.0.0.1
+Done. Routing via localhost
 
 $ hostmask.sh status
 Hosts routing status:
 Config: /home/user/myproject/hosts.json
 
-  LOCAL [local]: api.example.com → 192.168.1.100
-  LOCAL [local]: assets.example.com → 192.168.1.100
+  LOCAL [local]: api.example.com → 127.0.0.1
+  LOCAL [local]: assets.example.com → 127.0.0.1
 
 $ hostmask.sh off
 Config: /home/user/myproject/hosts.json
@@ -119,14 +119,14 @@ Done. Normal DNS resolution active
 
 ## Configuration
 
-Create a `hosts.json` file in your project directory:
+Create a `hosts.json` file in your project directory (or run `hostmask.sh init`):
 
 ```json
 {
   "profiles": {
     "local": {
-      "ip": "10.10.10.223",
-      "description": "local-dev server",
+      "ip": "127.0.0.1",
+      "description": "localhost",
       "hosts": [
         "api.example.com",
         "assets.example.com"
@@ -136,7 +136,7 @@ Create a `hosts.json` file in your project directory:
 }
 ```
 
-- `ip` - The IP address to route hosts to (your local dev server)
+- `ip` - The IP address to route hosts to (`127.0.0.1` for localhost, or another machine's IP)
 - `description` - Human-readable description
 - `hosts` - Array of hostnames to intercept
 
