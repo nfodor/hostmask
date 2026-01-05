@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="logo.svg" alt="hostmask logo" width="150">
+</p>
+
 # hostmask
 
 A simple bash tool to manage `/etc/hosts` routing for local development environments.
