@@ -4,27 +4,36 @@
 
 # hostmask
 
-A simple bash tool to manage `/etc/hosts` routing for local development environments.
+Redirect any domain to a different IP for local development and testing.
 
-## How DNS Resolution Works
+## The Problem
 
-When your computer needs to connect to a domain like `api.example.com`, it follows this order:
+When developing locally, you want `api.example.com` to hit your local dev server instead of production. This affects everything: `ping`, `curl`, browsers, any application.
 
-1. **Check `/etc/hosts`** - Local file mapping hostnames to IPs
-2. **Query DNS servers** - If not found in hosts file, ask DNS
+**Without hostmask:**
+```bash
+$ ping api.example.com
+PING api.example.com (93.184.216.34)  # → production server
+```
 
-The `/etc/hosts` file takes priority over DNS. This is what hostmask exploits.
+**With hostmask:**
+```bash
+$ hostmask.sh on
+$ ping api.example.com
+PING api.example.com (192.168.1.100)  # → your local dev server
+```
 
-## What hostmask Does
+Now `curl`, browsers, and any app connecting to `api.example.com` will reach your local machine instead.
 
-hostmask adds/removes entries in `/etc/hosts` to intercept DNS resolution:
+## How It Works
+
+Your computer checks `/etc/hosts` before querying DNS. hostmask adds/removes entries in this file:
 
 **Before (hostmask off):**
 ```
 # /etc/hosts
 127.0.0.1   localhost
 ```
-→ `api.example.com` resolves via DNS → `93.184.216.34` (production)
 
 **After (hostmask on):**
 ```
@@ -33,9 +42,25 @@ hostmask adds/removes entries in `/etc/hosts` to intercept DNS resolution:
 192.168.1.100 api.example.com
 192.168.1.100 assets.example.com
 ```
-→ `api.example.com` resolves via hosts file → `192.168.1.100` (your local dev)
 
-**When you run `hostmask off`**, the entries are removed and DNS resolution resumes.
+**When you run `hostmask off`**, entries are removed and normal DNS resolution resumes.
+
+## Verify It Works
+
+```bash
+# Before
+$ hostmask.sh off
+$ ping -c1 api.example.com | head -1
+PING api.example.com (93.184.216.34) 56(84) bytes of data.
+
+# After
+$ hostmask.sh on
+$ ping -c1 api.example.com | head -1
+PING api.example.com (192.168.1.100) 56(84) bytes of data.
+
+# Also works with curl
+$ curl -I https://api.example.com  # hits 192.168.1.100
+```
 
 ## Installation
 
