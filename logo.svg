@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#1a1a2e" stroke="#4a9eff" stroke-width="3"/>
+  
+  <!-- Tower/Server -->
+  <rect x="70" y="50" width="60" height="100" rx="5" fill="#2d3748" stroke="#4a9eff" stroke-width="2"/>
+  
+  <!-- Tower details - server lights -->
+  <rect x="80" y="60" width="40" height="8" rx="2" fill="#1a1a2e"/>
+  <circle cx="85" cy="64" r="2" fill="#4ade80"/>
+  <circle cx="93" cy="64" r="2" fill="#4ade80"/>
+  <circle cx="101" cy="64" r="2" fill="#facc15"/>
+  
+  <rect x="80" y="75" width="40" height="8" rx="2" fill="#1a1a2e"/>
+  <circle cx="85" cy="79" r="2" fill="#4ade80"/>
+  <circle cx="93" cy="79" r="2" fill="#4ade80"/>
+  <circle cx="101" cy="79" r="2" fill="#4ade80"/>
+  
+  <rect x="80" y="90" width="40" height="8" rx="2" fill="#1a1a2e"/>
+  <circle cx="85" cy="94" r="2" fill="#4ade80"/>
+  <circle cx="93" cy="94" r="2" fill="#facc15"/>
+  <circle cx="101" cy="94" r="2" fill="#4ade80"/>
+  
+  <!-- Ventilation slots -->
+  <rect x="80" y="110" width="40" height="2" fill="#1a1a2e"/>
+  <rect x="80" y="115" width="40" height="2" fill="#1a1a2e"/>
+  <rect x="80" y="120" width="40" height="2" fill="#1a1a2e"/>
+  <rect x="80" y="125" width="40" height="2" fill="#1a1a2e"/>
+  <rect x="80" y="130" width="40" height="2" fill="#1a1a2e"/>
+  <rect x="80" y="135" width="40" height="2" fill="#1a1a2e"/>
+  
+  <!-- Mask overlay -->
+  <ellipse cx="100" cy="95" rx="50" ry="35" fill="none" stroke="#ff6b6b" stroke-width="3" stroke-dasharray="8,4" opacity="0.9"/>
+  
+  <!-- Mask eye holes -->
+  <ellipse cx="80" cy="90" rx="12" ry="8" fill="#1a1a2e" stroke="#ff6b6b" stroke-width="2"/>
+  <ellipse cx="120" cy="90" rx="12" ry="8" fill="#1a1a2e" stroke="#ff6b6b" stroke-width="2"/>
+  
+  <!-- Mask tie strings -->
+  <path d="M 50 95 Q 40 85 35 95" stroke="#ff6b6b" stroke-width="2" fill="none"/>
+  <path d="M 150 95 Q 160 85 165 95" stroke="#ff6b6b" stroke-width="2" fill="none"/>
+  
+  <!-- Text -->
+  <text x="100" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#4a9eff">hostmask</text>
+</svg>
