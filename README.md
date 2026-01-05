@@ -30,10 +30,10 @@ hostmask adds/removes entries in `/etc/hosts` to intercept DNS resolution:
 ```
 # /etc/hosts
 127.0.0.1   localhost
-10.10.10.223 api.example.com
-10.10.10.223 assets.example.com
+192.168.1.100 api.example.com
+192.168.1.100 assets.example.com
 ```
-→ `api.example.com` resolves via hosts file → `10.10.10.223` (your local dev)
+→ `api.example.com` resolves via hosts file → `192.168.1.100` (your local dev)
 
 **When you run `hostmask off`**, the entries are removed and DNS resolution resumes.
 
@@ -67,19 +67,21 @@ hostmask.sh -c hosts.json status
 
 ```bash
 $ hostmask.sh -c hosts.json on
+Config: /home/user/myproject/hosts.json
 Applying profile: local (local-dev server)
-  + api.example.com → 10.10.10.223
-  + assets.example.com → 10.10.10.223
+  + api.example.com → 192.168.1.100
+  + assets.example.com → 192.168.1.100
 Done. Routing via local-dev server
 
 $ hostmask.sh -c hosts.json status
 Hosts routing status:
-Config: hosts.json
+Config: /home/user/myproject/hosts.json
 
-  LOCAL [local]: api.example.com → 10.10.10.223
-  LOCAL [local]: assets.example.com → 10.10.10.223
+  LOCAL [local]: api.example.com → 192.168.1.100
+  LOCAL [local]: assets.example.com → 192.168.1.100
 
 $ hostmask.sh -c hosts.json off
+Config: /home/user/myproject/hosts.json
 Removing hosts intercepts (using DNS)...
   - api.example.com → DNS
   - assets.example.com → DNS
