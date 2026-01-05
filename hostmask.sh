@@ -21,7 +21,7 @@
 # {
 #   "profiles": {
 #     "local": {
-#       "ip": "192.168.1.100",
+#       "ip": "127.0.0.1",
 #       "description": "local dev server",
 #       "hosts": ["api.example.com", "assets.example.com"]
 #     }
@@ -79,7 +79,7 @@ if [[ "$ACTION" == "init" ]]; then
 {
   "profiles": {
     "local": {
-      "ip": "192.168.1.100",
+      "ip": "127.0.0.1",
       "description": "local dev server",
       "hosts": [
         "api.example.com"

@@ -20,7 +20,7 @@ PING api.example.com (93.184.216.34)  # → production server
 ```bash
 $ hostmask.sh on
 $ ping api.example.com
-PING api.example.com (192.168.1.100)  # → your local dev server
+PING api.example.com (127.0.0.1)  # → your local dev server
 ```
 
 Now `curl`, browsers, and any app connecting to `api.example.com` will reach your local machine instead.
@@ -39,8 +39,8 @@ Your computer checks `/etc/hosts` before querying DNS. hostmask adds/removes ent
 ```
 # /etc/hosts
 127.0.0.1   localhost
-192.168.1.100 api.example.com
-192.168.1.100 assets.example.com
+127.0.0.1 api.example.com
+127.0.0.1 assets.example.com
 ```
 
 **When you run `hostmask off`**, entries are removed and normal DNS resolution resumes.
@@ -56,10 +56,10 @@ PING api.example.com (93.184.216.34) 56(84) bytes of data.
 # After
 $ hostmask.sh on
 $ ping -c1 api.example.com | head -1
-PING api.example.com (192.168.1.100) 56(84) bytes of data.
+PING api.example.com (127.0.0.1) 56(84) bytes of data.
 
 # Also works with curl
-$ curl -I https://api.example.com  # hits 192.168.1.100
+$ curl -I https://api.example.com  # hits 127.0.0.1
 ```
 
 ## Installation
@@ -98,16 +98,16 @@ $ cd ~/myproject
 $ hostmask.sh on
 Config: /home/user/myproject/hosts.json
 Applying profile: local (local-dev server)
-  + api.example.com → 192.168.1.100
-  + assets.example.com → 192.168.1.100
+  + api.example.com → 127.0.0.1
+  + assets.example.com → 127.0.0.1
 Done. Routing via local-dev server
 
 $ hostmask.sh status
 Hosts routing status:
 Config: /home/user/myproject/hosts.json
 
-  LOCAL [local]: api.example.com → 192.168.1.100
-  LOCAL [local]: assets.example.com → 192.168.1.100
+  LOCAL [local]: api.example.com → 127.0.0.1
+  LOCAL [local]: assets.example.com → 127.0.0.1
 
 $ hostmask.sh off
 Config: /home/user/myproject/hosts.json
@@ -125,7 +125,7 @@ Create a `hosts.json` file in your project directory:
 {
   "profiles": {
     "local": {
-      "ip": "10.10.10.223",
+      "ip": "127.0.0.1",
       "description": "local-dev server",
       "hosts": [
         "api.example.com",
@@ -139,6 +139,44 @@ Create a `hosts.json` file in your project directory:
 - `ip` - The IP address to route hosts to (your local dev server)
 - `description` - Human-readable description
 - `hosts` - Array of hostnames to intercept
+
+### Choosing the Right IP Address
+
+**For most cases, use `127.0.0.1` (localhost):**
+- `127.0.0.1` is the standard localhost address that points to your own machine
+- This is the recommended default for local development
+- Use this when your dev server is running on the same machine
+
+**When to use `192.168.x.x` (local network addresses):**
+- Use a `192.168.x.x` address when routing to a different machine on your local network
+- For example, if your dev server runs on a separate machine or VM
+- Common scenarios: Docker containers with custom networks, separate dev servers, testing across devices
+
+**Example with localhost (recommended default):**
+```json
+{
+  "profiles": {
+    "local": {
+      "ip": "127.0.0.1",
+      "description": "localhost dev server",
+      "hosts": ["api.example.com"]
+    }
+  }
+}
+```
+
+**Example with local network address:**
+```json
+{
+  "profiles": {
+    "network-dev": {
+      "ip": "192.168.1.100",
+      "description": "dev server on local network",
+      "hosts": ["api.example.com"]
+    }
+  }
+}
+```
 
 ## Per-Project Configs
 
