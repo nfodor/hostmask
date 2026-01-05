@@ -99,6 +99,9 @@ if [[ ! -f "$CONFIG_FILE" ]]; then
   exit 1
 fi
 
+# Convert to absolute path for display
+CONFIG_FILE=$(realpath "$CONFIG_FILE")
+
 # Check for jq
 if ! command -v jq &> /dev/null; then
   echo -e "${RED}Error: jq is required. Install with: sudo apt install jq${NC}"
@@ -174,6 +177,7 @@ case $ACTION in
       exit 1
     fi
 
+    echo -e "${CYAN}Config: $CONFIG_FILE${NC}"
     echo -e "${GREEN}Applying profile: $PROFILE ($DESC)${NC}"
 
     # Remove all managed hosts first
@@ -190,6 +194,7 @@ case $ACTION in
     ;;
 
   off)
+    echo -e "${CYAN}Config: $CONFIG_FILE${NC}"
     echo -e "${YELLOW}Removing hosts intercepts (using DNS)...${NC}"
 
     ALL_HOSTS=$(get_all_hosts)
