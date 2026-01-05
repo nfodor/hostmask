@@ -29,20 +29,14 @@ echo 'alias hostmask="~/dev/hostmask/hostmask.sh"' >> ~/.bashrc
 # Initialize a default hosts.json in current directory
 hostmask.sh -c hosts.json init
 
-# Enable local routing
+# Enable local routing (intercept DNS)
 hostmask.sh -c hosts.json on
 
-# Disable local routing (use DNS)
+# Disable local routing (use normal DNS)
 hostmask.sh -c hosts.json off
 
 # Check current status
 hostmask.sh -c hosts.json status
-
-# List available profiles
-hostmask.sh -c hosts.json list
-
-# Apply a specific profile
-hostmask.sh -c hosts.json on production
 ```
 
 ## Configuration
@@ -59,20 +53,12 @@ Create a `hosts.json` file in your project directory:
         "api.example.com",
         "assets.example.com"
       ]
-    },
-    "staging": {
-      "ip": "192.168.1.100",
-      "description": "staging server",
-      "hosts": [
-        "api.example.com"
-      ]
     }
   }
 }
 ```
 
-Each profile defines:
-- `ip` - The IP address to route hosts to
+- `ip` - The IP address to route hosts to (your local dev server)
 - `description` - Human-readable description
 - `hosts` - Array of hostnames to intercept
 
