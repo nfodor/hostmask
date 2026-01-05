@@ -156,6 +156,53 @@ Place a `hosts.json` in each project directory with project-specific hosts:
 
 Each project only intercepts the domains it needs.
 
+## Limitations: HTTPS and Certificates
+
+hostmask only redirects network traffic to a different IP. It does **not** handle TLS certificate validation.
+
+### The Problem
+
+When you visit `https://api.example.com`, your browser:
+1. Resolves `api.example.com` → IP address (hostmask intercepts this)
+2. Connects to that IP
+3. **Validates the TLS certificate** matches `api.example.com`
+
+If your local server doesn't have a valid certificate for `api.example.com`, you'll get certificate errors:
+
+```
+curl: (60) SSL certificate problem: unable to get local issuer certificate
+```
+
+### Solutions
+
+**Option 1: Ignore certificate errors (development only)**
+```bash
+curl -k https://api.example.com        # -k ignores cert errors
+```
+Browsers: Click through "Your connection is not private" warning.
+
+**Option 2: Use HTTP instead of HTTPS**
+If your local server supports HTTP, use that for development.
+
+**Option 3: Generate local certificates**
+Tools like [mkcert](https://github.com/FiloSottile/mkcert) create locally-trusted certificates:
+```bash
+mkcert api.example.com
+# Creates api.example.com.pem and api.example.com-key.pem
+# Configure your local server to use these
+```
+
+**Option 4: Use real certificates**
+If you have access to real certificates for the domain (e.g., from Let's Encrypt), install them on your local server.
+
+### What hostmask CAN'T do
+
+- Bypass certificate pinning in apps
+- Make browsers trust invalid certificates automatically
+- Handle mutual TLS (client certificates)
+
+hostmask is a DNS-level redirect. Authentication, encryption, and certificate validation happen at a different layer.
+
 ## Requirements
 
 - `bash`
